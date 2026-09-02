@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "vercel_app.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "vercel_app.py"
+    },
+    {
+      "src": "/ws",
+      "dest": "vercel_app.py"
+    },
+    {
+      "src": "/health",
+      "dest": "vercel_app.py"
+    },
+    {
+      "src": "/logo.ico",
+      "dest": "vercel_app.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.html"
+    }
+  ]
+}

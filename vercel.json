@@ -16,10 +16,6 @@
       "dest": "vercel_app.py"
     },
     {
-      "src": "/ws",
-      "dest": "vercel_app.py"
-    },
-    {
       "src": "/health",
       "dest": "vercel_app.py"
     },
@@ -29,7 +25,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "index.html"
+      "dest": "vercel_app.py"
     }
   ]
 }

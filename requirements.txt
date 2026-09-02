@@ -1,2 +1,4 @@
 aiohttp
 aiosqlite
+flask
+requests

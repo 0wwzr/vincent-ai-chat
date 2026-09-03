@@ -1029,6 +1029,121 @@
       background: #27272a;
     }
 
+    .share-dropdown-wrap {
+      position: relative;
+    }
+
+    .share-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 4px;
+      min-width: 160px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px;
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      animation: fadeInSmall 0.15s var(--ease-out);
+    }
+
+    .share-dropdown.hidden {
+      display: none;
+    }
+
+    .share-option {
+      display: block;
+      width: 100%;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 11px;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .share-option:hover {
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .share-option.danger:hover {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    /* =========================================================
+       SHARED SESSION USERS
+    ========================================================= */
+
+    .session-users-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--dim);
+    }
+
+    .session-users-bar.hidden {
+      display: none;
+    }
+
+    .session-users-label {
+      font-weight: 500;
+    }
+
+    .session-user-avatars {
+      display: flex;
+      margin-left: auto;
+    }
+
+    .session-user-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 2px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text);
+      margin-left: -6px;
+      transition: transform 0.15s var(--ease);
+    }
+
+    .session-user-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .session-user-avatar:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+
+    .session-user-count {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--success-soft);
+      border: 2px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--success);
+      margin-left: -6px;
+    }
+
     /* =========================================================
        MESSAGE AREA
     ========================================================= */
@@ -2762,6 +2877,14 @@
         />
       </symbol>
 
+      <symbol id="icon-share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
       <symbol id="icon-export" viewBox="0 0 24 24">
         <path
           d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
@@ -3106,6 +3229,25 @@
             </div>
           </div>
 
+          <div class="share-dropdown-wrap">
+            <button
+              class="icon-button"
+              type="button"
+              title="Share session"
+              aria-label="Share session"
+              onclick="toggleShareDropdown()"
+            >
+              <svg class="icon">
+                <use href="#icon-share"></use>
+              </svg>
+            </button>
+            <div class="share-dropdown hidden" id="share-dropdown">
+              <button class="share-option" onclick="inviteToSession()">Invite to session</button>
+              <button class="share-option" onclick="copyShareLink()">Copy link</button>
+              <button class="share-option" onclick="leaveSession()">Leave session</button>
+            </div>
+          </div>
+
           <button
             class="icon-button"
             type="button"
@@ -3133,6 +3275,13 @@
         </div>
 
       </header>
+
+      <!-- Session Users Bar -->
+      <div class="session-users-bar hidden" id="session-users-bar">
+        <span class="session-users-label">Session:</span>
+        <div class="session-user-avatars" id="session-user-avatars"></div>
+        <span class="session-user-count" id="session-user-count" style="display:none">+</span>
+      </div>
 
       <section
         class="messages"
@@ -5035,6 +5184,14 @@
           () => {
             reconnectAttempts = 0;
             updateSendButton();
+            // Join the shared session
+            if (currentConversationId) {
+              ws.send(JSON.stringify({
+                type: "join_session",
+                conversationId: currentConversationId,
+                username: getUsername()
+              }));
+            }
           }
         );
 
@@ -5167,6 +5324,48 @@
           );
         }
 
+        return;
+      }
+
+      if (type === "user_joined") {
+        showToast(`${payload.username} joined the session`);
+        if (payload.users) {
+          showSessionUsersBar(payload.users);
+        }
+        return;
+      }
+
+      if (type === "user_left") {
+        showToast(`${payload.username} left the session`);
+        if (payload.users) {
+          if (payload.users.length > 0) {
+            showSessionUsersBar(payload.users);
+          } else {
+            hideSessionUsersBar();
+          }
+        }
+        return;
+      }
+
+      if (type === "session_users") {
+        if (payload.users && payload.users.length > 0) {
+          showSessionUsersBar(payload.users);
+        } else {
+          hideSessionUsersBar();
+        }
+        return;
+      }
+
+      if (type === "share_url") {
+        const dd = document.getElementById('share-dropdown');
+        if (dd) dd.classList.add('hidden');
+        if (payload.url) {
+          navigator.clipboard.writeText(payload.url).then(() => {
+            showToast("Share link copied!");
+          }).catch(() => {
+            showToast("Failed to copy link");
+          });
+        }
         return;
       }
 
@@ -7822,6 +8021,97 @@
       URL.revokeObjectURL(url);
 
       showToast(`Exported as ${ext.toUpperCase()}`);
+    }
+
+    /* =========================================================
+       SHARE DROPDOWN / SESSION
+    ========================================================= */
+
+    function toggleShareDropdown() {
+      const dd = document.getElementById('share-dropdown');
+      if (dd) dd.classList.toggle('hidden');
+    }
+
+    function inviteToSession() {
+      const dd = document.getElementById('share-dropdown');
+      if (dd) dd.classList.add('hidden');
+      copyShareLink();
+      showToast("Share link copied! Send it to anyone to join this session.");
+    }
+
+    function copyShareLink() {
+      const dd = document.getElementById('share-dropdown');
+      if (dd) dd.classList.add('hidden');
+      if (!currentConversationId) return;
+      const url = `${window.location.origin}/${currentConversationId}`;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast("Link copied!");
+      }).catch(() => {
+        showToast("Failed to copy link");
+      });
+    }
+
+    function leaveSession() {
+      const dd = document.getElementById('share-dropdown');
+      if (dd) dd.classList.add('hidden');
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          type: "leave_session",
+          conversationId: currentConversationId,
+          username: getUsername()
+        }));
+      }
+      hideSessionUsersBar();
+    }
+
+    function joinSession(conversationId) {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          type: "join_session",
+          conversationId: conversationId,
+          username: getUsername()
+        }));
+      }
+    }
+
+    function requestSessionUsers() {
+      if (ws && ws.readyState === WebSocket.OPEN && currentConversationId) {
+        ws.send(JSON.stringify({
+          type: "get_session_users",
+          conversationId: currentConversationId
+        }));
+      }
+    }
+
+    function showSessionUsersBar(users) {
+      const bar = document.getElementById('session-users-bar');
+      const avatars = document.getElementById('session-user-avatars');
+      const count = document.getElementById('session-user-count');
+      if (!bar || !avatars) return;
+
+      avatars.innerHTML = '';
+      const displayUsers = users.slice(0, 5);
+      displayUsers.forEach((user, idx) => {
+        const avatar = document.createElement('div');
+        avatar.className = 'session-user-avatar';
+        avatar.textContent = user.username.charAt(0).toUpperCase();
+        avatar.title = user.username;
+        avatars.appendChild(avatar);
+      });
+
+      if (users.length > 5) {
+        count.textContent = `+${users.length - 5}`;
+        count.style.display = 'flex';
+      } else {
+        count.style.display = 'none';
+      }
+
+      bar.classList.remove('hidden');
+    }
+
+    function hideSessionUsersBar() {
+      const bar = document.getElementById('session-users-bar');
+      if (bar) bar.classList.add('hidden');
     }
 
     /* =========================================================

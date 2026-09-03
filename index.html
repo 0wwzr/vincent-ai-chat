@@ -46,6 +46,112 @@
       --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      /* Code themes (GitHub Dark default) */
+      --code-bg: #161b22;
+      --code-text: #e6edf3;
+      --code-comment: #8b949e;
+      --code-keyword: #ff7b72;
+      --code-string: #a5d6ff;
+      --code-number: #79c0ff;
+      --code-function: #d2a8ff;
+      --code-class: #ffa657;
+      --code-tag: #f0883e;
+      --code-attr: #79c0ff;
+      --code-attr-value: #a5d6ff;
+    }
+
+    [data-theme="light"] {
+      --bg: #fafafa;
+      --bg-elevated: #ffffff;
+      --surface: #f4f4f5;
+      --surface-2: #e4e4e7;
+      --surface-3: #d4d4d8;
+
+      --border: #e4e4e7;
+      --border-light: #d4d4d8;
+      --border-focus: #71717a;
+
+      --text: #18181b;
+      --text-secondary: #3f3f46;
+      --muted: #71717a;
+      --dim: #a1a1aa;
+      --faint: #d4d4d8;
+
+      --success: #16a34a;
+      --success-soft: rgba(22, 163, 74, 0.1);
+      --danger: #dc2626;
+      --danger-soft: rgba(220, 38, 38, 0.08);
+      --warning: #ca8a04;
+
+      /* Code themes for light mode */
+      --code-bg: #f6f8fa;
+      --code-text: #24292e;
+      --code-comment: #6a737d;
+      --code-keyword: #d73a49;
+      --code-string: #032f62;
+      --code-number: #005cc5;
+      --code-function: #6f42c1;
+      --code-class: #e36209;
+      --code-tag: #d73a49;
+      --code-attr: #005cc5;
+      --code-attr-value: #032f62;
+    }
+
+    [data-code-theme="github-light"] {
+      --code-bg: #f6f8fa;
+      --code-text: #24292e;
+      --code-comment: #6a737d;
+      --code-keyword: #d73a49;
+      --code-string: #032f62;
+      --code-number: #005cc5;
+      --code-function: #6f42c1;
+      --code-class: #e36209;
+      --code-tag: #d73a49;
+      --code-attr: #005cc5;
+      --code-attr-value: #032f62;
+    }
+
+    [data-code-theme="dracula"] {
+      --code-bg: #282a36;
+      --code-text: #f8f8f2;
+      --code-comment: #6272a4;
+      --code-keyword: #ff79c6;
+      --code-string: #f1fa8c;
+      --code-number: #bd93f9;
+      --code-function: #50fa7b;
+      --code-class: #ffb86c;
+      --code-tag: #ff79c6;
+      --code-attr: #50fa7b;
+      --code-attr-value: #f1fa8c;
+    }
+
+    [data-code-theme="monokai"] {
+      --code-bg: #272822;
+      --code-text: #f8f8f2;
+      --code-comment: #75715e;
+      --code-keyword: #f92672;
+      --code-string: #e6db74;
+      --code-number: #ae81ff;
+      --code-function: #a6e22e;
+      --code-class: #fd971f;
+      --code-tag: #f92672;
+      --code-attr: #a6e22e;
+      --code-attr-value: #e6db74;
+    }
+
+    [data-code-theme="vscode"] {
+      --code-bg: #1e1e1e;
+      --code-text: #d4d4d4;
+      --code-comment: #6a9955;
+      --code-keyword: #569cd6;
+      --code-string: #ce9178;
+      --code-number: #b5cea8;
+      --code-function: #dcdcaa;
+      --code-class: #4ec9b0;
+      --code-tag: #569cd6;
+      --code-attr: #9cdcfe;
+      --code-attr-value: #ce9178;
     }
 
     * {
@@ -334,7 +440,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #fff;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 12px;
       animation: scaleInSmall 0.45s var(--ease-out) 0.05s both;
       overflow: hidden;
@@ -528,7 +635,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #fff;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 7px;
       overflow: hidden;
     }
@@ -835,7 +943,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #fff;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 8px;
       overflow: hidden;
     }
@@ -1266,98 +1375,98 @@
       50% { opacity: 0; }
     }
 
-    /* =========================================================
+/* =========================================================
        MARKDOWN / CODE
-    ========================================================= */
+   ========================================================= */
 
-    .message-bubble .code-block-wrap {
-      margin: 10px 0 2px;
-      border-radius: 10px;
-      border: 1px solid #1e1e22;
-      background: #09090b;
-      overflow: hidden;
-    }
+   .message-bubble .code-block-wrap {
+     margin: 10px 0 2px;
+     border-radius: 10px;
+     border: 1px solid var(--border);
+     background: var(--code-bg);
+     overflow: hidden;
+   }
 
-    .message-bubble .code-block-wrap[data-collapsed="true"] .code-body {
-      max-height: 300px;
-      overflow: hidden;
-    }
+   .message-bubble .code-block-wrap[data-collapsed="true"] .code-body {
+     max-height: 300px;
+     overflow: hidden;
+   }
 
-    .message-bubble .code-block-wrap[data-collapsed="true"] .code-body::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: linear-gradient(transparent, #09090b);
-      pointer-events: none;
-    }
+   .message-bubble .code-block-wrap[data-collapsed="true"] .code-body::after {
+     content: "";
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 60px;
+     background: linear-gradient(transparent, var(--code-bg));
+     pointer-events: none;
+   }
 
-    .message-bubble .code-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 10px;
-      border-bottom: 1px solid #1e1e22;
-      background: #0c0c0e;
-    }
+   .message-bubble .code-header {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 6px 10px;
+     border-bottom: 1px solid var(--border);
+     background: var(--surface);
+   }
 
-    .message-bubble .code-lang {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+   .message-bubble .code-lang {
+     display: flex;
+     align-items: center;
+     gap: 6px;
+   }
 
-    .message-bubble .lang-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 17px;
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      color: #09090b;
-      background: #d4d4d8;
-      border-radius: 3px;
-    }
+   .message-bubble .lang-icon {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     width: 22px;
+     height: 17px;
+     font-size: 8px;
+     font-weight: 700;
+     letter-spacing: 0.03em;
+     color: var(--code-bg);
+     background: var(--text-secondary);
+     border-radius: 3px;
+   }
 
-    .message-bubble .lang-name {
-      font-size: 10px;
-      font-weight: 500;
-      color: #71717a;
-    }
+   .message-bubble .lang-name {
+     font-size: 10px;
+     font-weight: 500;
+     color: var(--dim);
+   }
 
-    .message-bubble .code-actions {
-      display: flex;
-      gap: 2px;
-    }
+   .message-bubble .code-actions {
+     display: flex;
+     gap: 2px;
+   }
 
-    .message-bubble .code-action-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 22px;
-      border-radius: 5px;
-      border: none;
-      background: transparent;
-      color: #52525b;
-      cursor: pointer;
-      transition: all 0.15s var(--ease);
-    }
+   .message-bubble .code-action-btn {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 24px;
+     height: 22px;
+     border-radius: 5px;
+     border: none;
+     background: transparent;
+     color: var(--dim);
+     cursor: pointer;
+     transition: all 0.15s var(--ease);
+   }
 
-    .message-bubble .code-action-btn:hover {
-      color: #a1a1aa;
-      background: #18181b;
-    }
+   .message-bubble .code-action-btn:hover {
+     color: var(--muted);
+     background: var(--surface-2);
+   }
 
-    .message-bubble .code-action-btn.copied {
-      color: #22c55e;
-    }
+   .message-bubble .code-action-btn.copied {
+     color: var(--success);
+   }
 
-    .message-bubble .code-body {
+.message-bubble .code-body {
       display: flex;
       overflow-x: auto;
       position: relative;
@@ -1367,7 +1476,7 @@
       padding: 12px 0;
       text-align: right;
       user-select: none;
-      border-right: 1px solid #1e1e22;
+      border-right: 1px solid var(--border);
       min-width: 36px;
       flex-shrink: 0;
     }
@@ -1378,14 +1487,14 @@
       font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
       font-size: 11px;
       line-height: 1.6;
-      color: #3f3f46;
+      color: var(--faint);
     }
 
     .message-bubble .code-content {
       padding: 12px 14px;
       margin: 0;
       overflow-x: auto;
-      color: #d4d4d8;
+      color: var(--code-text);
       font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
       font-size: 12px;
       line-height: 1.6;
@@ -1394,11 +1503,29 @@
       border: none;
     }
 
+    /* Syntax highlighting tokens */
+    .message-bubble .code-content .tok-comment,
+    .message-bubble .prompt-content .tok-comment {
+      color: var(--code-comment);
+    }
+    .message-bubble .code-content .tok-string,
+    .message-bubble .prompt-content .tok-string {
+      color: var(--code-string);
+    }
+    .message-bubble .code-content .tok-number,
+    .message-bubble .prompt-content .tok-number {
+      color: var(--code-number);
+    }
+    .message-bubble .code-content .tok-keyword,
+    .message-bubble .prompt-content .tok-keyword {
+      color: var(--code-keyword);
+    }
+
     .message-bubble .prompt-block {
       margin: 10px 0 2px;
       border-radius: 10px;
-      border: 1px solid #1e1e22;
-      background: #09090b;
+      border: 1px solid var(--border);
+      background: var(--surface);
       overflow: hidden;
     }
 
@@ -1407,14 +1534,14 @@
       align-items: center;
       justify-content: space-between;
       padding: 6px 10px;
-      border-bottom: 1px solid #1e1e22;
-      background: #0c0c0e;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
     }
 
     .message-bubble .prompt-label {
       font-size: 10px;
       font-weight: 600;
-      color: #71717a;
+      color: var(--dim);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -1428,25 +1555,25 @@
       border-radius: 5px;
       border: none;
       background: transparent;
-      color: #52525b;
+      color: var(--dim);
       cursor: pointer;
       transition: all 0.15s var(--ease);
     }
 
     .message-bubble .prompt-copy:hover {
-      color: #a1a1aa;
-      background: #18181b;
+      color: var(--muted);
+      background: var(--surface-2);
     }
 
     .message-bubble .prompt-copy.copied {
-      color: #22c55e;
+      color: var(--success);
     }
 
     .message-bubble .prompt-content {
       padding: 10px 14px;
       margin: 0;
       overflow-x: auto;
-      color: #d4d4d8;
+      color: var(--code-text);
       font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
       font-size: 12px;
       line-height: 1.6;
@@ -1457,8 +1584,8 @@
 
     .message-bubble .inline-code {
       padding: 2px 5px;
-      color: #e4e4e7;
-      background: #09090b;
+      color: var(--code-text);
+      background: var(--code-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
       font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
@@ -2935,21 +3062,6 @@
 
         <div class="header-left">
 
-          <button
-            class="icon-button mobile-menu-button"
-            type="button"
-            aria-label="Open menu"
-            onclick="toggleSidebar()"
-          >
-            <svg class="icon">
-              <use href="#icon-menu"></use>
-            </svg>
-          </button>
-
-          <div class="header-avatar">
-            <img src="logo.ico" alt="Vincent">
-          </div>
-
           <div class="header-name">
             Vincent
           </div>
@@ -3210,6 +3322,30 @@
 
               <div class="setting-info">
                 <div class="setting-name">
+                  Theme
+                </div>
+
+                <div class="setting-description">
+                  Choose color theme
+                </div>
+              </div>
+
+              <select
+                class="select"
+                id="theme-select"
+                onchange="changeTheme(this.value)"
+              >
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+                <option value="system">System</option>
+              </select>
+
+            </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
                   Font Size
                 </div>
 
@@ -3232,6 +3368,32 @@
 
             </div>
 
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Code Theme
+                </div>
+
+                <div class="setting-description">
+                  Syntax highlighting theme for code blocks
+                </div>
+              </div>
+
+              <select
+                class="select"
+                id="code-theme-select"
+                onchange="changeCodeTheme(this.value)"
+              >
+                <option value="github-dark">GitHub Dark</option>
+                <option value="github-light">GitHub Light</option>
+                <option value="dracula">Dracula</option>
+                <option value="monokai">Monokai</option>
+                <option value="vscode">VS Code</option>
+              </select>
+
+            </div>
+
           </div>
 
         </section>
@@ -3239,7 +3401,7 @@
         <section class="settings-section">
 
           <div class="section-title">
-            Chat
+            Chat Behavior
           </div>
 
           <div class="settings-card">
@@ -3252,7 +3414,7 @@
                 </div>
 
                 <div class="setting-description">
-                  Press Enter to send
+                  Press Enter to send, Shift+Enter for new line
                 </div>
               </div>
 
@@ -3287,6 +3449,106 @@
               ></button>
 
             </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Auto-scroll
+                </div>
+
+                <div class="setting-description">
+                  Automatically scroll to new messages
+                </div>
+              </div>
+
+              <button
+                class="toggle"
+                id="autoscroll-toggle"
+                type="button"
+                role="switch"
+                onclick="toggleSetting('autoScroll')"
+              ></button>
+
+            </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Streaming Cursor
+                </div>
+
+                <div class="setting-description">
+                  Show blinking cursor while generating
+                </div>
+              </div>
+
+              <button
+                class="toggle"
+                id="cursor-toggle"
+                type="button"
+                role="switch"
+                onclick="toggleSetting('streamingCursor')"
+              ></button>
+
+            </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Markdown Rendering
+                </div>
+
+                <div class="setting-description">
+                  Render markdown in messages
+                </div>
+              </div>
+
+              <button
+                class="toggle"
+                id="markdown-toggle"
+                type="button"
+                role="switch"
+                onclick="toggleSetting('markdownRendering')"
+              ></button>
+
+            </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Language Detection
+                </div>
+
+                <div class="setting-description">
+                  Auto-detect and respond in user's language
+                </div>
+              </div>
+
+              <button
+                class="toggle"
+                id="lang-toggle"
+                type="button"
+                role="switch"
+                onclick="toggleSetting('languageDetection')"
+              ></button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="settings-section">
+
+          <div class="section-title">
+            Notifications
+          </div>
+
+          <div class="settings-card">
 
             <div class="setting-row">
 
@@ -3330,6 +3592,106 @@
 
             </div>
 
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Desktop Notifications
+                </div>
+
+                <div class="setting-description">
+                  Show browser notifications for new responses
+                </div>
+              </div>
+
+              <button
+                class="toggle"
+                id="notify-toggle"
+                type="button"
+                role="switch"
+                onclick="toggleSetting('desktopNotifications')"
+              ></button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="settings-section">
+
+          <div class="section-title">
+            Data & Privacy
+          </div>
+
+          <div class="settings-card">
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Clear Conversation
+                </div>
+
+                <div class="setting-description">
+                  Delete all messages from this conversation
+                </div>
+              </div>
+
+              <button
+                class="danger-button"
+                type="button"
+                onclick="confirmClearConversation()"
+              >
+                Clear
+              </button>
+
+            </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Export Conversation
+                </div>
+
+                <div class="setting-description">
+                  Download conversation as file
+                </div>
+              </div>
+
+              <button
+                class="secondary-button"
+                type="button"
+                onclick="exportConversation()"
+              >
+                Export
+              </button>
+
+            </div>
+
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Clear All Data
+                </div>
+
+                <div class="setting-description">
+                  Delete all conversations and settings
+                </div>
+              </div>
+
+              <button
+                class="danger-button"
+                type="button"
+                onclick="confirmClearAllData()"
+              >
+                Clear All
+              </button>
+
+            </div>
+
           </div>
 
         </section>
@@ -3362,40 +3724,6 @@
             >
               Sign Out
             </button>
-
-          </div>
-
-        </section>
-
-        <section class="settings-section">
-
-          <div class="section-title">
-            Data
-          </div>
-
-          <div class="settings-card">
-
-            <div class="setting-row">
-
-              <div class="setting-info">
-                <div class="setting-name">
-                  Clear Conversation
-                </div>
-
-                <div class="setting-description">
-                  Delete all messages from this conversation
-                </div>
-              </div>
-
-              <button
-                class="danger-button"
-                type="button"
-                onclick="confirmClearConversation()"
-              >
-                Clear
-              </button>
-
-            </div>
 
           </div>
 
@@ -3487,7 +3815,14 @@
       sendOnEnter: true,
       showTimestamps: true,
       soundEffects: false,
-      soundVolume: 35
+      soundVolume: 35,
+      autoScroll: true,
+      streamingCursor: true,
+      markdownRendering: true,
+      languageDetection: true,
+      desktopNotifications: false,
+      theme: 'dark',
+      codeTheme: 'github-dark'
     };
 
     let settings = {
@@ -6285,16 +6620,16 @@
       const numbers = /\b(\d+\.?\d*(?:e[+-]?\d+)?)\b/gi;
 
       if (comments.test(escaped)) {
-        escaped = escaped.replace(comments, '<span style="color:#6a9955">$1</span>');
+        escaped = escaped.replace(comments, '<span class="tok-comment">$1</span>');
       }
       if (strings.test(escaped)) {
-        escaped = escaped.replace(strings, '<span style="color:#ce9178">$1</span>');
+        escaped = escaped.replace(strings, '<span class="tok-string">$1</span>');
       }
-      escaped = escaped.replace(numbers, '<span style="color:#b5cea8">$1</span>');
+      escaped = escaped.replace(numbers, '<span class="tok-number">$1</span>');
 
       const kw = keywords[lang];
       if (kw) {
-        escaped = escaped.replace(kw, '<span style="color:#569cd6">$1</span>');
+        escaped = escaped.replace(kw, '<span class="tok-keyword">$1</span>');
       }
 
       return escaped;
@@ -6685,6 +7020,18 @@
           : "22px"
       );
 
+      // Theme
+      if (settings.theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else if (settings.theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+
+      // Code theme
+      document.documentElement.setAttribute('data-code-theme', settings.codeTheme);
+
       updateToggle(
         "compact-toggle",
         settings.compactMode
@@ -6705,6 +7052,31 @@
         settings.soundEffects
       );
 
+      updateToggle(
+        "autoscroll-toggle",
+        settings.autoScroll
+      );
+
+      updateToggle(
+        "cursor-toggle",
+        settings.streamingCursor
+      );
+
+      updateToggle(
+        "markdown-toggle",
+        settings.markdownRendering
+      );
+
+      updateToggle(
+        "lang-toggle",
+        settings.languageDetection
+      );
+
+      updateToggle(
+        "notify-toggle",
+        settings.desktopNotifications
+      );
+
       const volRow = document.getElementById('volume-row');
       if (volRow) volRow.style.display = settings.soundEffects ? '' : 'none';
 
@@ -6714,16 +7086,32 @@
       const volLabel = document.getElementById('volume-value');
       if (volLabel) volLabel.textContent = settings.soundVolume + '%';
 
-      const select =
+      const fontSelect =
         document.getElementById(
           "font-size-select"
         );
 
-      if (select) {
-        select.value =
+      if (fontSelect) {
+        fontSelect.value =
           String(
             settings.fontSize
           );
+      }
+
+      const themeSelect =
+        document.getElementById(
+          "theme-select"
+        );
+      if (themeSelect) {
+        themeSelect.value = settings.theme;
+      }
+
+      const codeThemeSelect =
+        document.getElementById(
+          "code-theme-select"
+        );
+      if (codeThemeSelect) {
+        codeThemeSelect.value = settings.codeTheme;
       }
 
       refreshVisibleMessageMetadata();
@@ -6795,6 +7183,32 @@
         saveSettings();
         applySettings();
       }
+    }
+
+    function changeTheme(value) {
+      if (['dark', 'light', 'system'].includes(value)) {
+        settings.theme = value;
+        saveSettings();
+        applySettings();
+      }
+    }
+
+    function changeCodeTheme(value) {
+      settings.codeTheme = value;
+      saveSettings();
+      applySettings();
+    }
+
+    function confirmClearAllData() {
+      openConfirm(
+        'Clear All Data',
+        'This will delete all conversations, settings, and log you out. This cannot be undone.',
+        () => {
+          localStorage.clear();
+          sessionStorage.clear();
+          location.reload();
+        }
+      );
     }
 
     function refreshVisibleMessageMetadata() {

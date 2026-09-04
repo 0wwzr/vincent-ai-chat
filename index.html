@@ -3687,6 +3687,28 @@
 
             </div>
 
+            <div class="setting-row">
+
+              <div class="setting-info">
+                <div class="setting-name">
+                  Study Mode
+                </div>
+
+                <div class="setting-description">
+                  Extremely detailed, structured explanations for learning
+                </div>
+              </div>
+
+              <button
+                class="toggle"
+                id="study-mode-toggle"
+                type="button"
+                role="switch"
+                onclick="toggleSetting('studyMode')"
+              ></button>
+
+            </div>
+
           </div>
 
         </section>
@@ -3971,7 +3993,8 @@
       languageDetection: true,
       desktopNotifications: false,
       theme: 'dark',
-      codeTheme: 'github-dark'
+      codeTheme: 'github-dark',
+      studyMode: false
     };
 
     let settings = {
@@ -5184,14 +5207,6 @@
           () => {
             reconnectAttempts = 0;
             updateSendButton();
-            // Join the shared session
-            if (currentConversationId) {
-              ws.send(JSON.stringify({
-                type: "join_session",
-                conversationId: currentConversationId,
-                username: getUsername()
-              }));
-            }
           }
         );
 
@@ -5644,7 +5659,8 @@
               text,
               username: getUsername(),
               conversationId:
-                currentConversationId
+                currentConversationId,
+              mode: settings.studyMode ? "study" : "convo"
             })
           );
         } catch (_) {
@@ -5671,7 +5687,8 @@
           text,
           username: getUsername(),
           conversationId:
-            currentConversationId
+            currentConversationId,
+          mode: settings.studyMode ? "study" : "convo"
         })
       })
         .then(response => {
@@ -6534,7 +6551,8 @@
               action: "regenerate",
               messageId: data.id,
               conversationId:
-                currentConversationId
+                currentConversationId,
+              mode: settings.studyMode ? "study" : "convo"
             })
           );
         } catch (_) {
@@ -6571,7 +6589,8 @@
           text: lastUserMsg,
           username: getUsername(),
           conversationId:
-            currentConversationId
+            currentConversationId,
+          mode: settings.studyMode ? "study" : "convo"
         })
       })
         .then(response => {
@@ -7269,6 +7288,11 @@
       updateToggle(
         "lang-toggle",
         settings.languageDetection
+      );
+
+      updateToggle(
+        "study-mode-toggle",
+        settings.studyMode
       );
 
       updateToggle(
@@ -8036,6 +8060,8 @@
       const dd = document.getElementById('share-dropdown');
       if (dd) dd.classList.add('hidden');
       copyShareLink();
+      // Join the session when user explicitly wants to share
+      joinSession(currentConversationId);
       showToast("Share link copied! Send it to anyone to join this session.");
     }
 
@@ -8453,6 +8479,18 @@
         checkAuth();
         autoResizeTextarea();
         updateSendButton();
+
+        // Check URL for conversation ID (shared link)
+        const path = window.location.pathname.slice(1);
+        if (path && path.length >= 32) { // conversation IDs are 64 chars
+          selectConversation(path);
+          // Join session automatically when opening a shared link
+          setTimeout(() => {
+            if (currentConversationId && ws && ws.readyState === WebSocket.OPEN) {
+              joinSession(currentConversationId);
+            }
+          }, 500);
+        }
       }
     );
 
